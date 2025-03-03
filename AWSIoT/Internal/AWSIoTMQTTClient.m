@@ -1200,12 +1200,12 @@ typedef void (^StatusCallback)(AWSIoTMQTTStatus status);
     NSNumber *msgIdNumber = [NSNumber numberWithInt:msgId];
     AWSIoTMQTTAckBlock callback = [[self ackCallbackDictionary] objectForKey:msgIdNumber];
     
-    if(callback) {
+   if(callback) {
+        [[self ackCallbackDictionary] removeObjectForKey:msgIdNumber];
         // Give callback to the client on a background thread
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             callback();
         });
-        [[self ackCallbackDictionary] removeObjectForKey:msgIdNumber];
     }
 }
 
